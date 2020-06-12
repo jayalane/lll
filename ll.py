@@ -97,14 +97,9 @@ def use_std_out():
 
 
 def log_failure(bad_str):
-    """Stats on failed logs"""
+    """Stdout on failed logs"""
     try:
-        import context
-        context.get_context().stats["log.failure"].add(1)
-        context.get_context().stats["log.failure." + bad_str].add(1)
-        if context.get_context().log_failure_print:
-            if context.get_context().stats["log.failure"].n < 10:
-                print ("log failure - " + bad_str)
+        print ("log failure - " + bad_str)
     except:
         pass
 
@@ -145,7 +140,6 @@ class LLogger(object):
         """Log only with -d"""
         log_msgs[self.caller_mod + "--" + args[0]] += 1
         if self.trace_mod or _log_level >= 1:
-            import gevent  # for getcurrent
             try:
                 msg = apply(args[0].format, tuple(args[1:]))
                 print ("%s %s D (%s):%s" % (datetime.now().strftime("%d/%H:%M:%S.%f"),
@@ -158,7 +152,6 @@ class LLogger(object):
         """Log only with -dd"""
         log_msgs[self.caller_mod + "--" + args[0]] += 1
         if self.trace_mod or _log_level >= 2:
-            import gevent  # for getcurrent
             try:
                 msg = apply(args[0].format, tuple(args[1:]))
                 print ("%s %s D2 (%s):%s" % (datetime.now().strftime("%d/%H:%M:%S.%f"),
@@ -173,7 +166,6 @@ class LLogger(object):
 
         log_msgs[self.caller_mod + "--" + args[0]] += 1
         if self.trace_mod or _log_level >= 3:
-            import gevent  # for getcurrent
             try:
                 msg = apply(args[0].format, tuple(args[1:]))
                 print("%s %s D3 (%s):%s" % (datetime.now().strftime("%d/%H:%M:%S.%f"),
@@ -187,7 +179,6 @@ class LLogger(object):
         global log_msgs
         log_msgs[self.caller_mod + "--" + args[0]] += 1
         if self.trace_mod or _log_level >= 4:
-            import gevent  # for getcurrent
             try:
                 msg = apply(args[0].format, tuple(args[1:]))
                 print ("%s %s D4 (%s):%s" % (datetime.now().strftime("%d/%H:%M:%S.%f"),
